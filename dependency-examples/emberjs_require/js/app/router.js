@@ -14,6 +14,7 @@ define('app/router', [ 'ember' ],
 				showAll: Ember.Route.transitionTo( 'index' ),
 				showActive: Ember.Route.transitionTo( 'active' ),
 				showCompleted: Ember.Route.transitionTo( 'completed' ),
+				showItem: Ember.Route.transitionTo( 'item' ),
 
 				index: Ember.Route.extend({
 					route: '/',
@@ -80,6 +81,28 @@ define('app/router', [ 'ember' ],
 
 					}
 				}),
+
+				item: Ember.Route.extend({
+					route: '/item/:item_id',
+					connectOutlets: function( router, item ) {
+						var controller = router.get( 'applicationController' );
+						var context = controller.namespace.entriesController;
+						context.set( 'filterBy', '' );
+
+						// This require was left here exclusively for design purposes
+						// Loads decoupled controller/view based on current route
+						require([ 'app/controllers/todos', 'app/views/items-details' ],
+							function( TodosController, ItemsDetails ) {
+								controller.connectOutlet({
+									viewClass: ItemsDetails,
+									controller: TodosController.create(),
+									context: context
+								});
+							}
+						);
+
+					}
+				}),				
 
 				specs: Ember.Route.extend({
 					route: '/specs',

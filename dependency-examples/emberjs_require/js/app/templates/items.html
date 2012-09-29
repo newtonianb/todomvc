@@ -1,6 +1,6 @@
 {{#unless view.content.editing}}
 	{{view Ember.Checkbox checkedBinding="view.content.completed" class="toggle"}}
-	<label>{{view.content.title}}</label>
+	<label>{{view.content.title}} - <a {{action showItem href="true"}}>details</a></label>
 	<button {{action removeItem}} class="destroy" ></button>
 {{else}}
 	{{view view.ItemEditorView contentBinding="view.content"}}
